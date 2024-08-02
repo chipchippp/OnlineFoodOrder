@@ -33,6 +33,8 @@ public class AppConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             ).authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","RESTAURANT_OWNER")
+                        .requestMatchers("/api/v1/auth/signup").permitAll()
+                        .requestMatchers("/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
             )

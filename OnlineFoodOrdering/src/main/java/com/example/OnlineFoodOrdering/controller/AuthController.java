@@ -47,9 +47,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody UserEntity user) throws Exception {
-        UserEntity isEmailExits = userRepository.findByUsername(user.getEmail());
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            throw new Exception("Email cannot be null or empty");
+        }
+        UserEntity isEmailExits = userRepository.findUserByEmail(user.getEmail());
         if (isEmailExits != null) {
-            throw new  Exception("Email already exists");
+            throw new Exception("Email already exists");
         }
         UserEntity newUser = new UserEntity();
         newUser.setUsername(user.getUsername());
@@ -88,7 +91,7 @@ public class AuthController {
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
-        authResponse.setMessage("Register successfully");
+        authResponse.setMessage("Login successfully");
         authResponse.setRole(ERole.valueOf(role));
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }

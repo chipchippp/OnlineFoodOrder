@@ -31,7 +31,7 @@ public class JwtProvider {
         return jwt;
     }
 
-    public String getEmailFromToken(String jwt) {
+    public String getEmailFromJwtToken(String jwt) {
         jwt = jwt.substring(7);
 
         Claims claims = Jwts.parserBuilder()

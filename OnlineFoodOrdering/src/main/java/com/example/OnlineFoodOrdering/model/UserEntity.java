@@ -3,6 +3,7 @@ package com.example.OnlineFoodOrdering.model;
 import com.example.OnlineFoodOrdering.dto.RestaurantDto;
 import com.example.OnlineFoodOrdering.statics.enums.ERole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class UserEntity {
     private Long id;
     private String username;
     private String email;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private ERole role = ERole.ROLE_CUSTOMER;
 

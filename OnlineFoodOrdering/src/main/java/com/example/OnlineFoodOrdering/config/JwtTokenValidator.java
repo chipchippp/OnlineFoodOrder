@@ -29,9 +29,9 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(JwtConstant.JWT_TOKEN_HEADER);
 //        Bearer token
-
-        if (jwt != null) {
+        if (jwt != null && jwt.startsWith("Bearer ")) {
             jwt = jwt.substring(7);
+
             try {
                 SecretKey secretKey = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
                 Claims claims = Jwts.parserBuilder()
@@ -41,7 +41,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                         .getBody();
 
                 String email = String.valueOf(claims.get("email"));
-                String authorities = String.valueOf(claims.get("authorities"));
+                String authorities = String.valueOf((claims.get("authorities")));
 
 //                ROLE_USER, ROLE_ADMIN, ROLE_CUSTOMER
                 List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
