@@ -25,10 +25,10 @@ public class CustomerUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findUserByEmail(email);
         if (userEntity == null) {
-            throw new UsernameNotFoundException("User not found with email: " + username);
+            throw new UsernameNotFoundException("loadUserByUsername not found with email: " + email);
         }
         ERole role = userEntity.getRole();
 //        if (role == null) {
@@ -37,6 +37,6 @@ public class CustomerUserDetailService implements UserDetailsService {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
-        return new User(userEntity.getUsername(), userEntity.getPassword(), authorities);
+        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
     }
 }

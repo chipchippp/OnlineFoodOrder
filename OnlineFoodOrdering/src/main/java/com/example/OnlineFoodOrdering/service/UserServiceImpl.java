@@ -3,13 +3,12 @@ package com.example.OnlineFoodOrdering.service;
 import com.example.OnlineFoodOrdering.config.JwtProvider;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
+import com.example.OnlineFoodOrdering.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
@@ -20,7 +19,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserEntity findByUsernameByJwtToken(String jwt) throws Exception {
+    public UserEntity findByUserByJwtToken(String jwt) throws Exception {
         String email = jwtProvider.getEmailFromJwtToken(jwt);
         UserEntity userEntity = userRepository.findUserByEmail(email);
         if (userEntity == null) {
