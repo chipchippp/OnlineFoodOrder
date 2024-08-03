@@ -31,6 +31,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant saveRestaurant(RestaurantRequest res, UserEntity userEntity) throws Exception {
+
         Address address = addressRepository.save(res.getAddress());
         Restaurant restaurant = new Restaurant();
         restaurant.setAddress(address);
@@ -42,7 +43,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setOpeningHours(res.getOpeningHours());
         restaurant.setRegistrationDate(LocalDateTime.now());
         restaurant.setOwner(userEntity);
-
+        if (restaurant == null) {
+            throw new Exception("Restaurant entity must not be null");
+        }
         return restaurantRepository.save(restaurant);
     }
 
@@ -74,11 +77,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant getRestaurantByUserId(Long id) throws Exception {
-        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new Exception("getRestaurantByUserId not found"));
-        if (restaurant == null) {
-            throw new Exception("getRestaurantByUserId not found");
-        }
-        return restaurant;
+        return restaurantRepository.findById(id)
+                .orElseThrow(() -> new Exception("getRestaurantByUserId not found for ID: " + id));
     }
 
     @Override

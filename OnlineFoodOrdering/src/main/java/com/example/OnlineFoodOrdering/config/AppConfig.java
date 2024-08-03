@@ -32,7 +32,7 @@ public class AppConfig {
                     sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             ).authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","RESTAURANT_OWNER")
+                        .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN","RESTAURANT_OWNER")
                         .requestMatchers("/api/v1/auth/signup").permitAll()
                         .requestMatchers("/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/**").authenticated()

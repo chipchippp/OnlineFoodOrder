@@ -12,7 +12,7 @@
     import org.springframework.web.bind.annotation.*;
 
     @RestController
-    @RequestMapping("api/v1/admin/restaurant")
+    @RequestMapping("/api/v1/admin/restaurant")
     public class AdminRestaurantController {
         private final RestaurantService restaurantService;
         private final UserService userService;
@@ -75,10 +75,12 @@
         public ResponseEntity<Restaurant> findRestaurantById(
                 @RequestHeader("Authorization") String jwt
         ) throws Exception {
-
             UserEntity user = userService.findByUserByJwtToken(jwt);
+            if (user == null) {
+                throw new Exception("User not found for the provided JWT");
+            }
+
             Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());
             return new ResponseEntity<>(restaurant, HttpStatus.OK);
         }
-
     }
