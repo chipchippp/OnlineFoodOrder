@@ -68,7 +68,7 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public List<IngredientItem> findResIngredient(Long resId) throws Exception {
-        return ingredientRepository.findByResId(resId);
+        return ingredientRepository.findByRestaurantId(resId);
     }
 
     @Override
