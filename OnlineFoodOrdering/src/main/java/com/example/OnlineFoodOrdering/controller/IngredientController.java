@@ -26,7 +26,7 @@ public class IngredientController {
 
 
     @PostMapping("/category")
-    public ResponseEntity<IngredientCategory> saveIngredient(
+    public ResponseEntity<IngredientCategory> saveIngredientCategory(
             @RequestBody IngredientCategoryRequest req,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
@@ -35,8 +35,7 @@ public class IngredientController {
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
-
-    @PostMapping("/category")
+    @PostMapping("/categoryItem")
     public ResponseEntity<IngredientItem> saveIngredientItem(
             @RequestBody IngredientRequest req
     ) throws Exception {

@@ -19,7 +19,6 @@ public class CategoryController {
     private final UserService userService;
     private final RestaurantService restaurantService;
 
-    @Autowired
     public CategoryController(CategoryService categoryService, UserService userService, RestaurantService restaurantService) {
         this.categoryService = categoryService;
         this.userService = userService;

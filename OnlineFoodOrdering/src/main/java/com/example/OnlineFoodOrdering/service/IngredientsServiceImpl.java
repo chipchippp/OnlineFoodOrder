@@ -47,7 +47,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     @Override
     public List<IngredientCategory> findIngredientCategoryByResId(Long id) throws Exception {
         Restaurant restaurant = restaurantService.findRestaurantById(id);
-        return ingredientCategoryRepository.findByResId(restaurant.getId());
+        return ingredientCategoryRepository.findByRestaurantId(restaurant.getId());
     }
 
     @Override
