@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.statics.enums;
+package com.example.OnlineFoodOrdering.util;
 
 public enum ERole {
     ROLE_USER,

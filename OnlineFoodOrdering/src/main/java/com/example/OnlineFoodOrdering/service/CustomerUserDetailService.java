@@ -2,7 +2,7 @@ package com.example.OnlineFoodOrdering.service;
 
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
-import com.example.OnlineFoodOrdering.statics.enums.ERole;
+import com.example.OnlineFoodOrdering.util.ERole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

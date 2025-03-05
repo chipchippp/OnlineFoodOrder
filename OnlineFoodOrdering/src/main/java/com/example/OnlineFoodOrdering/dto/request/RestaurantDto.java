@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.dto;
+package com.example.OnlineFoodOrdering.dto.request;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

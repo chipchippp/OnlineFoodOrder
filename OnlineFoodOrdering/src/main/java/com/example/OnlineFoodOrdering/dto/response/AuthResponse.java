@@ -1,6 +1,6 @@
 package com.example.OnlineFoodOrdering.dto.response;
 
-import com.example.OnlineFoodOrdering.statics.enums.ERole;
+import com.example.OnlineFoodOrdering.util.ERole;
 import lombok.Data;
 
 @Data

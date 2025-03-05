@@ -1,6 +1,6 @@
 package com.example.OnlineFoodOrdering.service;
 
-import com.example.OnlineFoodOrdering.dto.RestaurantDto;
+import com.example.OnlineFoodOrdering.dto.request.RestaurantDto;
 import com.example.OnlineFoodOrdering.exception.ResourceNotFoundException;
 import com.example.OnlineFoodOrdering.model.Address;
 import com.example.OnlineFoodOrdering.model.Restaurant;

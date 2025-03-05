@@ -1,12 +1,11 @@
 package com.example.OnlineFoodOrdering.controller;
 
-import com.example.OnlineFoodOrdering.dto.RestaurantDto;
+import com.example.OnlineFoodOrdering.dto.request.RestaurantDto;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
