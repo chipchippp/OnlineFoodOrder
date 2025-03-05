@@ -1,12 +1,11 @@
 package com.example.OnlineFoodOrdering.controller;
 
-import com.example.OnlineFoodOrdering.model.CartItem;
 import com.example.OnlineFoodOrdering.model.Order;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.AddCartItemRequest;
-import com.example.OnlineFoodOrdering.request.OrderRequest;
+import com.example.OnlineFoodOrdering.dto.request.OrderRequest;
 import com.example.OnlineFoodOrdering.service.impl.OrderService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/")
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
-
-    @Autowired
-    public OrderController(OrderService orderService, UserService userService) {
-        this.orderService = orderService;
-        this.userService = userService;
-    }
 
     @PostMapping("/order/create")
     public ResponseEntity<Order> saveOrder(

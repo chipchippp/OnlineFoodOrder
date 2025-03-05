@@ -4,7 +4,7 @@ import com.example.OnlineFoodOrdering.model.Category;
 import com.example.OnlineFoodOrdering.model.Food;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.repository.FoodRepository;
-import com.example.OnlineFoodOrdering.request.FoodRequest;
+import com.example.OnlineFoodOrdering.dto.request.FoodRequest;
 import com.example.OnlineFoodOrdering.service.impl.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

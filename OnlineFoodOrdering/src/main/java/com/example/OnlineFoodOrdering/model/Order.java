@@ -12,10 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Order extends AbstractEntity{
     @ManyToOne
     private UserEntity customer;
     @JsonIgnore

@@ -12,10 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CartItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CartItem extends AbstractEntity{
 
     @ManyToOne
     @JsonIgnore
@@ -26,6 +23,7 @@ public class CartItem {
 
     private int quantity;
 
+    @ElementCollection
     private List<String> ingredients;
 
     private Long totalPrice;

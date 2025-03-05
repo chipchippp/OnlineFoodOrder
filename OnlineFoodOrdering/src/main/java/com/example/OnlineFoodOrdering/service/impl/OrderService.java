@@ -2,8 +2,7 @@ package com.example.OnlineFoodOrdering.service.impl;
 
 import com.example.OnlineFoodOrdering.model.Order;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.OrderRequest;
-import org.aspectj.weaver.ast.Or;
+import com.example.OnlineFoodOrdering.dto.request.OrderRequest;
 
 import java.util.List;
 

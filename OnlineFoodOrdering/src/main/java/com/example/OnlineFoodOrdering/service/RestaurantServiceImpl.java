@@ -1,14 +1,16 @@
 package com.example.OnlineFoodOrdering.service;
 
 import com.example.OnlineFoodOrdering.dto.RestaurantDto;
+import com.example.OnlineFoodOrdering.exception.ResourceNotFoundException;
 import com.example.OnlineFoodOrdering.model.Address;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.AddressRepository;
 import com.example.OnlineFoodOrdering.repository.RestaurantRepository;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
-import com.example.OnlineFoodOrdering.request.RestaurantRequest;
+import com.example.OnlineFoodOrdering.dto.request.RestaurantRequest;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
@@ -31,6 +34,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant saveRestaurant(RestaurantRequest res, UserEntity userEntity) throws Exception {
+        log.info("Saving restaurant with name: {}", res.getName());
 
         Address address = addressRepository.save(res.getAddress());
         Restaurant restaurant = new Restaurant();
@@ -78,7 +82,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public Restaurant getRestaurantByUserId(Long id) throws Exception {
         return restaurantRepository.findById(id)
-                .orElseThrow(() -> new Exception("getRestaurantByUserId not found for ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("getRestaurantByUserId not found for ID: " + id));
     }
 
     @Override

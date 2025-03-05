@@ -1,5 +1,6 @@
 package com.example.OnlineFoodOrdering.service;
 
+import com.example.OnlineFoodOrdering.exception.ResourceNotFoundException;
 import com.example.OnlineFoodOrdering.model.Cart;
 import com.example.OnlineFoodOrdering.model.CartItem;
 import com.example.OnlineFoodOrdering.model.Food;
@@ -7,7 +8,7 @@ import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.CartItemRepository;
 import com.example.OnlineFoodOrdering.repository.CartRepository;
 import com.example.OnlineFoodOrdering.repository.FoodRepository;
-import com.example.OnlineFoodOrdering.request.AddCartItemRequest;
+import com.example.OnlineFoodOrdering.dto.request.AddCartItemRequest;
 import com.example.OnlineFoodOrdering.service.impl.CartService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +37,26 @@ public class CartServiceImpl implements CartService {
         UserEntity user = userService.findByUserByJwtToken(jwt);
         Optional<Food> food = foodRepository.findById(req.getFoodId());
         Cart cart = cartRepository.findCartByCustomerId(user.getId());
+
         for (CartItem item : cart.getCartItems()) {
-            if (item.getFood().equals(food)) {
+            if (item.getFood().equals(food.orElse(null))) {
                 int newQuantity = item.getQuantity() + req.getQuantity();
                 return updateCartItemQuantity(item.getId(), newQuantity);
             }
         }
+
+        if (food.isEmpty()) {
+            throw new ResourceNotFoundException("Food not found");
+        }
+
+        Food foodEntity = food.get();
+
         CartItem cartItem = new CartItem();
-        cartItem.setFood(food.get());
+        cartItem.setFood(foodEntity);
         cartItem.setQuantity(req.getQuantity());
         cartItem.setCart(cart);
         cartItem.setIngredients(req.getIngredients());
-        cartItem.setTotalPrice(food.get().getPrice() * req.getQuantity());
+        cartItem.setTotalPrice(foodEntity.getPrice() * req.getQuantity());
 
         CartItem savedCartItem = cartItemRepository.save(cartItem);
         cart.getCartItems().add(savedCartItem);
@@ -92,11 +101,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart findCartById(Long id) throws Exception {
-        Optional<Cart> cart = cartRepository.findById(id);
-        if (cart.isEmpty()) {
-            throw new Exception("Cart not found");
-        }
-        return cart.get();
+        Cart cart = cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found with id: " + id));
+        return cart;
     }
 
     @Override

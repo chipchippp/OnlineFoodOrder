@@ -15,10 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "food")
-public class Food {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Food extends AbstractEntity{
 
     private String name;
 

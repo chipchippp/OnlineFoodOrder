@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactInformation {
+public class ContactInformation extends AbstractEntity{
     private String email;
     private String mobile;
     private String twitter;

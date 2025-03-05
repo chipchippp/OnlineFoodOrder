@@ -12,15 +12,12 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Entity
+@Table(name = "users")
+public class UserEntity extends AbstractEntity{
     private String username;
     private String email;
 

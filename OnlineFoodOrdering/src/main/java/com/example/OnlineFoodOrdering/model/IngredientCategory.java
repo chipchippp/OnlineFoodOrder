@@ -13,10 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class IngredientCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class IngredientCategory extends AbstractEntity{
 
     private String name;
 

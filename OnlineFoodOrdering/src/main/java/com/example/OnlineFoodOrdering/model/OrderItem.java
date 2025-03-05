@@ -12,10 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderItem extends AbstractEntity{
     @ManyToOne
     private Food food;
     private int quantity;

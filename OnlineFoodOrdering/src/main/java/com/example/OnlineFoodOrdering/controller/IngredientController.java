@@ -1,12 +1,11 @@
 package com.example.OnlineFoodOrdering.controller;
 
-import com.example.OnlineFoodOrdering.model.Category;
 import com.example.OnlineFoodOrdering.model.IngredientCategory;
 import com.example.OnlineFoodOrdering.model.IngredientItem;
-import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.IngredientCategoryRequest;
-import com.example.OnlineFoodOrdering.request.IngredientRequest;
+import com.example.OnlineFoodOrdering.dto.request.IngredientCategoryRequest;
+import com.example.OnlineFoodOrdering.dto.request.IngredientRequest;
 import com.example.OnlineFoodOrdering.service.impl.IngredientsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/admin/ingredient")
 public class IngredientController {
     private final IngredientsService ingredientService;
-
-    @Autowired
-    public IngredientController(IngredientsService ingredientService) {
-        this.ingredientService = ingredientService;
-    }
-
 
     @PostMapping("/category")
     public ResponseEntity<IngredientCategory> saveIngredientCategory(

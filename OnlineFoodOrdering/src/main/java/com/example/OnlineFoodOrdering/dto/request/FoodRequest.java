@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.request;
+package com.example.OnlineFoodOrdering.dto.request;
 
 import com.example.OnlineFoodOrdering.model.Category;
 import com.example.OnlineFoodOrdering.model.IngredientItem;

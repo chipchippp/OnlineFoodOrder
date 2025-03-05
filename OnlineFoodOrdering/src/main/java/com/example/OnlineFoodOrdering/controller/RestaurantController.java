@@ -3,9 +3,9 @@ package com.example.OnlineFoodOrdering.controller;
 import com.example.OnlineFoodOrdering.dto.RestaurantDto;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.RestaurantRequest;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/restaurant")
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final UserService userService;
-
-    @Autowired
-    public RestaurantController(RestaurantService restaurantService, UserService userService) {
-        this.restaurantService = restaurantService;
-        this.userService = userService;
-    }
 
     @GetMapping("/search")
     public ResponseEntity<List<Restaurant>> searchRestaurant(

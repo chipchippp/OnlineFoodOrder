@@ -2,7 +2,7 @@ package com.example.OnlineFoodOrdering.service.impl;
 
 import com.example.OnlineFoodOrdering.model.Cart;
 import com.example.OnlineFoodOrdering.model.CartItem;
-import com.example.OnlineFoodOrdering.request.AddCartItemRequest;
+import com.example.OnlineFoodOrdering.dto.request.AddCartItemRequest;
 
 public interface CartService {
     public CartItem addToCart(AddCartItemRequest req, String jwt) throws Exception;

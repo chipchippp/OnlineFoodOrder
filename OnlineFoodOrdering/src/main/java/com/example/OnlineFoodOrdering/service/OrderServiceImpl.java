@@ -5,7 +5,7 @@ import com.example.OnlineFoodOrdering.repository.AddressRepository;
 import com.example.OnlineFoodOrdering.repository.OrderItemRepository;
 import com.example.OnlineFoodOrdering.repository.OrderRepository;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
-import com.example.OnlineFoodOrdering.request.OrderRequest;
+import com.example.OnlineFoodOrdering.dto.request.OrderRequest;
 import com.example.OnlineFoodOrdering.service.impl.CartService;
 import com.example.OnlineFoodOrdering.service.impl.OrderService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;

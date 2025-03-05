@@ -12,10 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Cart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Cart extends AbstractEntity {
 
     @OneToOne
     private UserEntity customer;

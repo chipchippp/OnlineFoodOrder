@@ -3,26 +3,23 @@ package com.example.OnlineFoodOrdering.controller;
 import com.example.OnlineFoodOrdering.model.Cart;
 import com.example.OnlineFoodOrdering.model.CartItem;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.AddCartItemRequest;
-import com.example.OnlineFoodOrdering.request.UpdateCartItemRequest;
+import com.example.OnlineFoodOrdering.dto.request.AddCartItemRequest;
+import com.example.OnlineFoodOrdering.dto.request.UpdateCartItemRequest;
 import com.example.OnlineFoodOrdering.service.impl.CartService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/cart")
 public class CartController {
     private final CartService cartService;
     private final UserService userService;
 
-    @Autowired
-    public CartController(CartService cartService, UserService userService) {
-        this.cartService = cartService;
-        this.userService = userService;
-    }
 
     @PostMapping("/add")
     public ResponseEntity<CartItem> saveCartItem(

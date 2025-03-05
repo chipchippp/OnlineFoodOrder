@@ -5,6 +5,7 @@ import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.service.impl.CategoryService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,20 +13,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/category")
 public class CategoryController {
     private final CategoryService categoryService;
     private final UserService userService;
     private final RestaurantService restaurantService;
 
-    public CategoryController(CategoryService categoryService, UserService userService, RestaurantService restaurantService) {
-        this.categoryService = categoryService;
-        this.userService = userService;
-        this.restaurantService = restaurantService;
-    }
 
-    @PostMapping("/admin/category/add")
+    @PostMapping("/add")
     public ResponseEntity<Category> saveCategory(
             @RequestBody Category category,
             @RequestHeader("Authorization") String jwt
@@ -36,7 +33,7 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
-    @PostMapping("/category/restaurants")
+    @PostMapping("/restaurants")
     public ResponseEntity<List<Category>> getResCategory(
             @RequestBody Category category,
             @RequestHeader("Authorization") String jwt

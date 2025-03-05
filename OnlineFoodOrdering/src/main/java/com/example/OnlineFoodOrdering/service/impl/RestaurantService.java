@@ -3,7 +3,7 @@ package com.example.OnlineFoodOrdering.service.impl;
 import com.example.OnlineFoodOrdering.dto.RestaurantDto;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.RestaurantRequest;
+import com.example.OnlineFoodOrdering.dto.request.RestaurantRequest;
 
 import java.util.List;
 

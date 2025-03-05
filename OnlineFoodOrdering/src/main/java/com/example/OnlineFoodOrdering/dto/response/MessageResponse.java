@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.response;
+package com.example.OnlineFoodOrdering.dto.response;
 
 import lombok.Data;
 

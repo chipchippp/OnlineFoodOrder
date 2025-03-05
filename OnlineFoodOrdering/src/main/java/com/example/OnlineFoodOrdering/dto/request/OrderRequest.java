@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.request;
+package com.example.OnlineFoodOrdering.dto.request;
 
 import com.example.OnlineFoodOrdering.model.Address;
 import lombok.Data;

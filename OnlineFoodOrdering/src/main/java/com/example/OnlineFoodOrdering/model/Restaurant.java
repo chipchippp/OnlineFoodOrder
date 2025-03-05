@@ -14,10 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "restaurant")
-public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Restaurant extends AbstractEntity{
 
     @OneToOne
     private UserEntity owner;

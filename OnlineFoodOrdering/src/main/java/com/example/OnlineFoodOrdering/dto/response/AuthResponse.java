@@ -1,4 +1,4 @@
-package com.example.OnlineFoodOrdering.response;
+package com.example.OnlineFoodOrdering.dto.response;
 
 import com.example.OnlineFoodOrdering.statics.enums.ERole;
 import lombok.Data;

@@ -3,7 +3,7 @@ package com.example.OnlineFoodOrdering.service.impl;
 import com.example.OnlineFoodOrdering.model.Category;
 import com.example.OnlineFoodOrdering.model.Food;
 import com.example.OnlineFoodOrdering.model.Restaurant;
-import com.example.OnlineFoodOrdering.request.FoodRequest;
+import com.example.OnlineFoodOrdering.dto.request.FoodRequest;
 
 import java.util.List;
 

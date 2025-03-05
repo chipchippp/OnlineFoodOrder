@@ -5,10 +5,11 @@ import com.example.OnlineFoodOrdering.model.Cart;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.CartRepository;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
-import com.example.OnlineFoodOrdering.request.LoginRequest;
-import com.example.OnlineFoodOrdering.response.AuthResponse;
+import com.example.OnlineFoodOrdering.dto.request.LoginRequest;
+import com.example.OnlineFoodOrdering.dto.response.AuthResponse;
 import com.example.OnlineFoodOrdering.service.CustomerUserDetailService;
 import com.example.OnlineFoodOrdering.statics.enums.ERole;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
 //@CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,15 +34,6 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final CustomerUserDetailService customerUserDetailService;
     private final CartRepository cartRepository;
-
-    @Autowired
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider, CustomerUserDetailService customerUserDetailService, CartRepository cartRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
-        this.customerUserDetailService = customerUserDetailService;
-        this.cartRepository = cartRepository;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody UserEntity user) throws Exception {

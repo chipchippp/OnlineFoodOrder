@@ -1,12 +1,11 @@
 package com.example.OnlineFoodOrdering.controller;
 
 import com.example.OnlineFoodOrdering.model.Food;
-import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.request.FoodRequest;
 import com.example.OnlineFoodOrdering.service.impl.FoodService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/food")
 public class FoodController {
     private final FoodService foodService;
     private final UserService userService;
     private final RestaurantService restaurantService;
-
-    @Autowired
-    public FoodController(FoodService foodService, UserService userService, RestaurantService restaurantService) {
-        this.foodService = foodService;
-        this.userService = userService;
-        this.restaurantService = restaurantService;
-    }
 
     @GetMapping("/search")
     public ResponseEntity<List<Food>> searchFood(
