@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,15 +28,14 @@ public class CustomerUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findUserByEmail(email);
         if (userEntity == null) {
-            throw new UsernameNotFoundException("loadUserByUsername not found with email: " + email);
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
-        ERole role = userEntity.getRole();
-//        if (role == null) {
-//            role = ERole.ROLE_CUSTOMER;
-//        }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.toString()));
+        // Gán role mặc định nếu null
+        ERole role = (userEntity.getRole() != null) ? userEntity.getRole() : ERole.ROLE_CUSTOMER;
+
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role.name()));
+
         return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
     }
 }

@@ -8,24 +8,22 @@ import com.example.OnlineFoodOrdering.model.Address;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, JwtProvider jwtProvider) {
-        this.userRepository = userRepository;
-        this.jwtProvider = jwtProvider;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity findByUserByJwtToken(String jwt) throws Exception {
@@ -55,7 +53,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .phone(user.getPhone())
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .password(passwordEncoder.encode(user.getPassword()))
                 .dateOfBirth(user.getDateOfBirth())
                 .gender(user.getGender())
                 .status(user.getStatus())

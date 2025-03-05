@@ -1,3 +1,4 @@
+// UserEntity.java
 package com.example.OnlineFoodOrdering.model;
 
 import com.example.OnlineFoodOrdering.dto.request.RestaurantDto;
@@ -49,6 +50,9 @@ public class UserEntity extends AbstractEntity{
     @Column(name = "gender")
     private Gender gender;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "role")
     private ERole role = ERole.ROLE_CUSTOMER;
 
     @Enumerated(EnumType.STRING)
