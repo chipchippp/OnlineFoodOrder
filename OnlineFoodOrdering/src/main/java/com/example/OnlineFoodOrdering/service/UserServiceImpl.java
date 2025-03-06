@@ -3,6 +3,7 @@ package com.example.OnlineFoodOrdering.service;
 import com.example.OnlineFoodOrdering.config.JwtProvider;
 import com.example.OnlineFoodOrdering.dto.request.AddressDTO;
 import com.example.OnlineFoodOrdering.dto.request.UserRequestDTO;
+import com.example.OnlineFoodOrdering.dto.response.UserDetailResponse;
 import com.example.OnlineFoodOrdering.exception.ResourceNotFoundException;
 import com.example.OnlineFoodOrdering.model.Address;
 import com.example.OnlineFoodOrdering.model.UserEntity;
@@ -10,7 +11,6 @@ import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetailResponse getUserId(long userId) {
+        UserEntity userEntity = getUserById(userId);
+        return UserDetailResponse.builder()
+                .id(userEntity.getId())
+                .fullName(userEntity.getFullName())
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .phone(userEntity.getPhone())
+                .build();
+    }
 
     @Override
     public UserEntity findByUserByJwtToken(String jwt) throws Exception {
@@ -47,19 +59,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long addUser(UserRequestDTO user) {
+    public long addUser(UserRequestDTO request) {
         UserEntity userEntity = UserEntity.builder()
-                .fullName(user.getFullName())
-                .username(user.getUsername())
-                .phone(user.getPhone())
-                .email(user.getEmail())
-                .password(passwordEncoder.encode(user.getPassword()))
-                .dateOfBirth(user.getDateOfBirth())
-                .gender(user.getGender())
-                .status(user.getStatus())
-                .addresses(convertToAddress(user.getAddresses()))
+                .fullName(request.getFullName())
+                .username(request.getUsername())
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .dateOfBirth(request.getDateOfBirth())
+                .gender(request.getGender())
+                .status(request.getStatus())
+                .addresses(convertToAddress(request.getAddresses()))
                 .build();
-        user.getAddresses().forEach(a -> userEntity.saveAddress(Address.builder()
+        request.getAddresses().forEach(a -> userEntity.saveAddress(Address.builder()
                 .apartmentNumber(a.getApartmentNumber())
                 .floor(a.getFloor())
                 .building(a.getBuilding())
@@ -94,13 +106,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(long userId, UserRequestDTO user) {
+    public void updateUser(long userId, UserRequestDTO request) {
+        UserEntity userEntity = getUserById(userId);
+        userEntity.setFullName(request.getFullName());
+        userEntity.setUsername(request.getUsername());
+        if (!request.getEmail().equals(userEntity.getEmail())) {
+            userEntity.setEmail(request.getEmail());
+        }
+        userEntity.setPhone(request.getPhone());
+        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        userEntity.setDateOfBirth(request.getDateOfBirth());
+        userEntity.setGender(request.getGender());
+        userEntity.setStatus(request.getStatus());
+        userEntity.setAddresses(convertToAddress(request.getAddresses()));
 
+        userRepository.save(userEntity);
+        log.info("User {} updated successfully", userEntity.getId());
     }
 
     @Override
     public void deleteUser(long userId) {
-
+        userRepository.deleteById(userId);
+        log.info("User {} deleted successfully", userId);
     }
 
     private UserEntity getUserById(long userId) {
