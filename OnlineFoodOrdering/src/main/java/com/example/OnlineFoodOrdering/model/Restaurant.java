@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "restaurant")
-public class Restaurant extends AbstractEntity{
+public class Restaurant extends AbstractEntity<Long>{
 
     @OneToOne
     private UserEntity owner;

@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class IngredientCategory extends AbstractEntity{
+public class IngredientCategory extends AbstractEntity<Long>{
 
     private String name;
 

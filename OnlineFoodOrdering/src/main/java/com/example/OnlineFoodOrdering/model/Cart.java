@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Cart extends AbstractEntity {
+public class Cart extends AbstractEntity<Long> {
 
     @OneToOne
     private UserEntity customer;

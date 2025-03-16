@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "address")
-public class Address extends AbstractEntity {
+public class Address extends AbstractEntity<Long> {
     @Column(name = "apartment_number")
     private String apartmentNumber;
     @Column(name = "floor")

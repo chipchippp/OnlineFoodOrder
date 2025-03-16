@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "food")
-public class Food extends AbstractEntity{
+public class Food extends AbstractEntity<Long>{
 
     private String name;
 

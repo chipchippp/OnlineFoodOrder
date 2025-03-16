@@ -11,10 +11,13 @@ import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -24,6 +27,28 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetailsService getUserDetailsService() {
+        return username -> userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("user.not.found"));
+    }
+
+    @Override
+    public UserEntity getByUsername(String username) {
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserEntity getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public long saveUser(UserEntity user) {
+        userRepository.save(user);
+        return user.getId();
+    }
 
     @Override
     public UserDetailResponse getUserId(long userId) {
@@ -40,22 +65,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByUserByJwtToken(String jwt) throws Exception {
         String email = jwtProvider.getEmailFromJwtToken(jwt);
-        UserEntity userEntity = userRepository.findUserByEmail(email);
+        Optional<UserEntity> userEntity = userRepository.findUserByEmail(email);
         if (userEntity == null) {
             throw new Exception("User not found with email: " + email);
         }
 
-        return userEntity;
+        return userEntity.get();
     }
 
     @Override
     public UserEntity findUserByEmail(String email) throws Exception {
-        UserEntity userEntity = userRepository.findUserByEmail(email);
+        Optional<UserEntity> userEntity = userRepository.findUserByEmail(email);
 
         if (userEntity == null) {
             throw new Exception("User not found with email: " + email);
         }
-        return userEntity;
+        return userEntity.get();
     }
 
     @Override

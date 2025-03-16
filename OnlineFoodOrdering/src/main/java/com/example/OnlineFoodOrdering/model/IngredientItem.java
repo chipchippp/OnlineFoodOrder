@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class IngredientItem extends AbstractEntity{
+public class IngredientItem extends AbstractEntity<Long>{
     private String name;
 
     @ManyToOne

@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order extends AbstractEntity{
+public class Order extends AbstractEntity<Long>{
     @ManyToOne
     private UserEntity customer;
     @JsonIgnore

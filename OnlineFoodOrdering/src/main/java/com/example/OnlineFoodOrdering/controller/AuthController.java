@@ -1,12 +1,15 @@
 package com.example.OnlineFoodOrdering.controller;
 
 import com.example.OnlineFoodOrdering.config.JwtProvider;
+import com.example.OnlineFoodOrdering.dto.request.SignInRequest;
+import com.example.OnlineFoodOrdering.dto.response.TokenResponse;
 import com.example.OnlineFoodOrdering.model.Cart;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.CartRepository;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.dto.request.LoginRequest;
 import com.example.OnlineFoodOrdering.dto.response.AuthResponse;
+import com.example.OnlineFoodOrdering.service.AuthServiceImpl;
 import com.example.OnlineFoodOrdering.service.CustomerUserDetailService;
 import com.example.OnlineFoodOrdering.util.ERole;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +22,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import static javax.security.auth.callback.ConfirmationCallback.OK;
+
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -33,13 +41,19 @@ public class AuthController {
     private final JwtProvider jwtProvider;
     private final CustomerUserDetailService customerUserDetailService;
     private final CartRepository cartRepository;
+    private final AuthServiceImpl authService;
+
+    @PostMapping("/access-token")
+    public ResponseEntity<TokenResponse> login(@RequestBody SignInRequest request) {
+        return new ResponseEntity<>(authService.accessToken(request), HttpStatus.OK);
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody UserEntity user) throws Exception {
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
             throw new Exception("Email cannot be null or empty");
         }
-        UserEntity isEmailExits = userRepository.findUserByEmail(user.getEmail());
+        Optional<UserEntity> isEmailExits = userRepository.findUserByEmail(user.getEmail());
         if (isEmailExits != null) {
             throw new Exception("Email already exists");
         }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Category extends AbstractEntity{
+public class Category extends AbstractEntity<Long>{
 
     private String name;
 

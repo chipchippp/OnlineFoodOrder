@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "order_items")
-public class OrderItem extends AbstractEntity{
+public class OrderItem extends AbstractEntity<Long>{
     @ManyToOne
     private Food food;
     private int quantity;
