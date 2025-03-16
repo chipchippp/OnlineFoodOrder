@@ -1,0 +1,6 @@
+#jwt:
+#   expiryHours: 3600000 # 1 hour
+#   expiryDays: 86400000 # 1 day
+#   secretKey: 297fb2dd8d41f7542cb6506ffef38b24011082a70aaaf09bdc0e619b5fca242b
+#   refreshKey: ClJMlDP88XazYN3/dtv16QggUW9Hj2eUN634idNOa1I=
+#   resetKey: 46dbe9f988aa45f86f5857ff1ba198ec35fd3e8bda60df10d309c91b59505ec4
