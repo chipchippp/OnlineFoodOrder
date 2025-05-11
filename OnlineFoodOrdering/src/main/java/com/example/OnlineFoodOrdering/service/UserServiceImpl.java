@@ -8,6 +8,9 @@ import com.example.OnlineFoodOrdering.model.Address;
 import com.example.OnlineFoodOrdering.model.UserEntity;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +18,13 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-    private final JwtProvider jwtProvider;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, JwtProvider jwtProvider) {
-        this.userRepository = userRepository;
-        this.jwtProvider = jwtProvider;
-    }
+    UserRepository userRepository;
+    JwtProvider jwtProvider;
 
     @Override
     public UserEntity findByUserByJwtToken(String jwt) throws Exception {

@@ -1,68 +1,93 @@
 package com.example.OnlineFoodOrdering.controller;
 
-import com.example.OnlineFoodOrdering.model.Cart;
-import com.example.OnlineFoodOrdering.model.CartItem;
-import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.dto.request.AddCartItemRequest;
-import com.example.OnlineFoodOrdering.dto.request.UpdateCartItemRequest;
-import com.example.OnlineFoodOrdering.service.impl.CartService;
-import com.example.OnlineFoodOrdering.service.impl.UserService;
+import com.example.OnlineFoodOrdering.dto.response.*;
+import com.example.OnlineFoodOrdering.model.*;
+import com.example.OnlineFoodOrdering.dto.request.*;
+import com.example.OnlineFoodOrdering.service.impl.*;
+import jakarta.validation.Valid;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/cart")
 public class CartController {
-    private final CartService cartService;
-    private final UserService userService;
-
+    CartService cartService;
+    UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<CartItem> saveCartItem(
-            @RequestBody AddCartItemRequest req,
+    public ResponseData<?> saveCartItem(
+            @Valid @RequestBody AddCartItemRequest req,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        CartItem cartItem = cartService.addToCart(req, jwt);
-        return new ResponseEntity<>(cartItem, HttpStatus.CREATED);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            CartItem cartItem = cartService.addToCart(req, jwt);
+            return new ResponseData<>(HttpStatus.CREATED.value(), "Cart item added successfully", cartItem);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
     }
 
     @PutMapping("/cartItem/update/{cartItemId}")
-    public ResponseEntity<CartItem> updateCartItem(
-            @RequestBody UpdateCartItemRequest req,
+    public ResponseData<?> updateCartItem(
+            @Valid @RequestBody UpdateCartItemRequest req,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        CartItem cartItem = cartService.updateCartItemQuantity(req.getCartItemId(), req.getQuantity());
-        return new ResponseEntity<>(cartItem, HttpStatus.OK);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            CartItem cartItem = cartService.updateCartItemQuantity(req.getCartItemId(), req.getQuantity());
+            return new ResponseData<>(HttpStatus.OK.value(), "Cart item updated successfully", cartItem);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
     }
 
     @DeleteMapping("/cartItem/remove/{id}")
-    public ResponseEntity<?> removeCartItem(
+    public ResponseData<?> removeCartItem(
             @PathVariable Long id,
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-         Cart cart = cartService.removeCartItem(id, jwt);
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            cartService.removeCartItem(id, jwt);
+            return new ResponseData<>(HttpStatus.OK.value(), "Cart item removed successfully", null);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
     }
 
     @PutMapping("/clear")
-    public ResponseEntity<Cart> clearCart(
+    public ResponseData<?> clearCart(
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        UserEntity user = userService.findByUserByJwtToken(jwt);
-        Cart cart = cartService.clearCart(user.getId());
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            Cart cart = cartService.clearCart(user.getId());
+            return new ResponseData<>(HttpStatus.OK.value(), "Cart cleared successfully", cart);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
     }
 
     @GetMapping("/clear")
-    public ResponseEntity<Cart> findUserCart(
+    public ResponseData<Cart> findUserCart(
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        UserEntity user = userService.findByUserByJwtToken(jwt);
-        Cart cart = cartService.findCartByUserId(user.getId());
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            Cart cart = cartService.findCartByUserId(user.getId());
+            return new ResponseData<>(HttpStatus.OK.value(), "Cart found successfully", cart);
+        } catch (Exception e) {
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
     }
 }

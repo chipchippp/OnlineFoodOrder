@@ -11,11 +11,16 @@ import com.example.OnlineFoodOrdering.repository.FoodRepository;
 import com.example.OnlineFoodOrdering.dto.request.AddCartItemRequest;
 import com.example.OnlineFoodOrdering.service.impl.CartService;
 import com.example.OnlineFoodOrdering.service.impl.UserService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -23,14 +28,6 @@ public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final CartItemRepository cartItemRepository;
     private final FoodRepository foodRepository;
-
-    @Autowired
-    public CartServiceImpl(CartRepository cartRepository, UserService userService, CartItemRepository cartItemRepository, FoodRepository foodRepository) {
-        this.cartRepository = cartRepository;
-        this.userService = userService;
-        this.cartItemRepository = cartItemRepository;
-        this.foodRepository = foodRepository;
-    }
 
     @Override
     public CartItem addToCart(AddCartItemRequest req, String jwt) throws Exception {

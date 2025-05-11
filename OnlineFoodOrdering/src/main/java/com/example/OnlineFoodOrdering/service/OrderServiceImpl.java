@@ -9,6 +9,9 @@ import com.example.OnlineFoodOrdering.dto.request.OrderRequest;
 import com.example.OnlineFoodOrdering.service.impl.CartService;
 import com.example.OnlineFoodOrdering.service.impl.OrderService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +19,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class OrderServiceImpl implements OrderService {
-    private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
-    private final AddressRepository addressRepository;
-    private final UserRepository userRepository;
-    private final RestaurantService restaurantService;
-    private final CartService cartService;
-
-    @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, OrderItemRepository orderItemRepository, AddressRepository addressRepository, UserRepository userRepository, RestaurantService restaurantService, CartService cartService) {
-        this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
-        this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
-        this.restaurantService = restaurantService;
-        this.cartService = cartService;
-    }
+    OrderRepository orderRepository;
+    OrderItemRepository orderItemRepository;
+    AddressRepository addressRepository;
+    UserRepository userRepository;
+    RestaurantService restaurantService;
+    CartService cartService;
 
     @Override
     public Order createOrder(OrderRequest order, UserEntity userEntity) throws Exception {
@@ -46,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
             userRepository.save(userEntity);
         }
 
-        Restaurant restaurant = restaurantService.findRestaurantById(order.getRestaurantId());
+        Restaurant restaurant = restaurantService.getRestaurantById(order.getRestaurantId());
         Order newOrder = new Order();
         newOrder.setCustomer(userEntity);
         newOrder.setRestaurant(restaurant);

@@ -6,22 +6,21 @@ import com.example.OnlineFoodOrdering.repository.CategoryRepository;
 import com.example.OnlineFoodOrdering.repository.RestaurantRepository;
 import com.example.OnlineFoodOrdering.service.impl.CategoryService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoryRepository;
-    private final RestaurantService restaurantService;
-
-    @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, RestaurantService restaurantService) {
-        this.categoryRepository = categoryRepository;
-        this.restaurantService = restaurantService;
-    }
+    CategoryRepository categoryRepository;
+    RestaurantService restaurantService;
 
     @Override
     public Category saveCategory(String category, Long userId) throws Exception {
@@ -47,4 +46,15 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return category.get();
     }
+
+    @Override
+    public List<Category> findAllCategories() throws Exception {
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty()){
+            throw new Exception("No categories found");
+        }
+        return categories;
+    }
+
+
 }

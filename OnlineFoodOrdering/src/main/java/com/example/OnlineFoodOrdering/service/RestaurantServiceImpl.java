@@ -10,33 +10,32 @@ import com.example.OnlineFoodOrdering.repository.RestaurantRepository;
 import com.example.OnlineFoodOrdering.repository.UserRepository;
 import com.example.OnlineFoodOrdering.dto.request.RestaurantRequest;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-    private final RestaurantRepository restaurantRepository;
-    private final AddressRepository addressRepository;
-    private final UserRepository userRepository;
-
-    @Autowired
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, AddressRepository addressRepository, UserRepository userRepository) {
-        this.restaurantRepository = restaurantRepository;
-        this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
-    }
+    RestaurantRepository restaurantRepository;
+    AddressRepository addressRepository;
+    UserRepository userRepository;
 
     @Override
     public Restaurant saveRestaurant(RestaurantRequest res, UserEntity userEntity) throws Exception {
         log.info("Saving restaurant with name: {}", res.getName());
 
-        Address address = addressRepository.save(res.getAddress());
+        Address address = addressRepository.findById(res.getAddressId())
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found for ID: " + res.getAddressId()));
+
         Restaurant restaurant = new Restaurant();
         restaurant.setAddress(address);
         restaurant.setContactInformation(res.getContactInformation());
@@ -86,7 +85,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant findRestaurantById(Long id) throws Exception {
+    public Restaurant getRestaurantById(Long id) throws Exception {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         if(restaurant.isEmpty()){
             throw new Exception("findRestaurantById not found with id: "+id);

@@ -13,7 +13,7 @@ public class RestaurantRequest {
     private String name;
     private String description;
     private String cuisineType;
-    private Address address;
+    private Long addressId;
     private ContactInformation contactInformation;
     private String openingHours;
 //    private String closingHours;

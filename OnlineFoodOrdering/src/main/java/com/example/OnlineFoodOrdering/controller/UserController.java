@@ -1,40 +1,49 @@
 package com.example.OnlineFoodOrdering.controller;
 
-import com.example.OnlineFoodOrdering.dto.request.UserRequestDTO;
-import com.example.OnlineFoodOrdering.dto.response.ResponseData;
-import com.example.OnlineFoodOrdering.dto.response.ResponseError;
-import com.example.OnlineFoodOrdering.model.UserEntity;
-import com.example.OnlineFoodOrdering.service.impl.UserService;
+import com.example.OnlineFoodOrdering.dto.response.*;
+import com.example.OnlineFoodOrdering.model.*;
+import com.example.OnlineFoodOrdering.dto.request.*;
+import com.example.OnlineFoodOrdering.service.impl.*;
+import com.example.OnlineFoodOrdering.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-    private final UserService userService;
+    UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<UserEntity> findUserByJwtToken(
+    public ResponseData<?> findUserByJwtToken(
             @RequestHeader("Authorization") String jwt
     ) throws Exception {
-        UserEntity user = userService.findByUserByJwtToken(jwt);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            UserEntity user = userService.findByUserByJwtToken(jwt);
+            return new ResponseData<>(HttpStatus.OK.value(), "user.get.success", user);
+        } catch (ResourceNotFoundException e) {
+            log.error("Error = {} ", e.getMessage(), e.getCause());
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Get user fail");
+        }
     }
 
     @GetMapping("/email")
-    public ResponseEntity<UserEntity> getUserByEmail(String email) {
+    public ResponseData<?> getUserByEmail(String email) {
         try {
             UserEntity user = userService.findUserByEmail(email);
-            return ResponseEntity.ok(user);
+            return new ResponseData<>(HttpStatus.OK.value(), "user.get.success", user);
         } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+            log.error("Error = {} ", e.getMessage(), e.getCause());
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Get user fail");
         }
     }
 

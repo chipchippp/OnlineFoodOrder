@@ -5,39 +5,41 @@ import com.example.OnlineFoodOrdering.model.Food;
 import com.example.OnlineFoodOrdering.model.Restaurant;
 import com.example.OnlineFoodOrdering.repository.FoodRepository;
 import com.example.OnlineFoodOrdering.dto.request.FoodRequest;
+import com.example.OnlineFoodOrdering.service.impl.CategoryService;
 import com.example.OnlineFoodOrdering.service.impl.FoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class FoodServiceImpl implements FoodService {
-    private final FoodRepository foodRepository;
-
-    @Autowired
-    public FoodServiceImpl(FoodRepository foodRepository) {
-        this.foodRepository = foodRepository;
-    }
+    FoodRepository foodRepository;
+    CategoryService categoryService;
 
     @Override
     public Food saveFood(FoodRequest foodRequest,
-                         Category category,
                          Restaurant restaurant
     ) throws Exception {
 
-        Food food = new Food();
-        food.setCategory(category);
-        food.setRestaurant(restaurant);
-        food.setName(foodRequest.getName());
-        food.setPrice(foodRequest.getPrice());
-        food.setImages(foodRequest.getImages());
-        food.setIngredients(foodRequest.getIngredients());
-        food.setVeg(foodRequest.isVegetarian());
-        food.setSeasonal(foodRequest.isSeasonal());
-        food.setDescription(foodRequest.getDescription());
+        Category category = categoryService.findCategoryById(foodRequest.getCategoryId());
+        Food food = Food.builder()
+                .name(foodRequest.getName())
+                .category(category)
+                .description(foodRequest.getDescription())
+                .price(foodRequest.getPrice())
+                .isVeg(foodRequest.isVegetarian())
+                .isSeasonal(foodRequest.isSeasonal())
+                .available(true)
+                .restaurant(restaurant)
+                .category(category)
+                .build();
 
         Food saveFood = foodRepository.save(food);
         restaurant.getFoods().add(saveFood);

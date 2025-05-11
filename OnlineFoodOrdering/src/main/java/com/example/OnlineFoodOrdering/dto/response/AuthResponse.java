@@ -1,11 +1,13 @@
 package com.example.OnlineFoodOrdering.dto.response;
 
 import com.example.OnlineFoodOrdering.util.ERole;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@Builder
 public class AuthResponse {
-    private String jwt;
-    private String message;
+    private String accessToken;
+    private String refreshToken;
     private ERole role;
 }

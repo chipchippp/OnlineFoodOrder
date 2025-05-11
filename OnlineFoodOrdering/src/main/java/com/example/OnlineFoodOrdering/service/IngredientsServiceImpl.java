@@ -7,28 +7,26 @@ import com.example.OnlineFoodOrdering.repository.IngredientCategoryRepository;
 import com.example.OnlineFoodOrdering.repository.IngredientRepository;
 import com.example.OnlineFoodOrdering.service.impl.IngredientsService;
 import com.example.OnlineFoodOrdering.service.impl.RestaurantService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class IngredientsServiceImpl implements IngredientsService {
-    private final IngredientRepository ingredientRepository;
-    private final IngredientCategoryRepository ingredientCategoryRepository;
-    private final RestaurantService restaurantService;
-
-    @Autowired
-    public IngredientsServiceImpl(IngredientRepository ingredientRepository, IngredientCategoryRepository ingredientCategoryRepository, RestaurantService restaurantService) {
-        this.ingredientRepository = ingredientRepository;
-        this.ingredientCategoryRepository = ingredientCategoryRepository;
-        this.restaurantService = restaurantService;
-    }
+    IngredientRepository ingredientRepository;
+    IngredientCategoryRepository ingredientCategoryRepository;
+    RestaurantService restaurantService;
 
     @Override
     public IngredientCategory saveIngredient(String name, Long resId) throws Exception {
-        Restaurant restaurant = restaurantService.findRestaurantById(resId);
+        Restaurant restaurant = restaurantService.getRestaurantById(resId);
         IngredientCategory ingredientCategory = new IngredientCategory();
         ingredientCategory.setName(name);
         ingredientCategory.setRestaurant(restaurant);
@@ -46,13 +44,13 @@ public class IngredientsServiceImpl implements IngredientsService {
 
     @Override
     public List<IngredientCategory> findIngredientCategoryByResId(Long id) throws Exception {
-        Restaurant restaurant = restaurantService.findRestaurantById(id);
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
         return ingredientCategoryRepository.findByRestaurantId(restaurant.getId());
     }
 
     @Override
     public IngredientItem saveIngredientItem(String ingredientName, Long resId, Long categoryId) throws Exception {
-        Restaurant restaurant = restaurantService.findRestaurantById(resId);
+        Restaurant restaurant = restaurantService.getRestaurantById(resId);
         IngredientCategory category = findIngredientCategoryById(categoryId);
 
         IngredientItem item = new IngredientItem();
