@@ -32,8 +32,8 @@
 1. **Tách biệt trách nhiệm (Separation of Concerns)**:
 - Bạn đã chia ứng dụng thành các lớp và module riêng biệt như `Controller`, `Service`, `Repository`, và `Model`. Điều này giúp mã nguồn dễ bảo trì và mở rộng.
 - Ví dụ:
-    - `AdminFoodController` xử lý các yêu cầu liên quan đến món ăn.
-    - `AdminRestaurantController` xử lý các yêu cầu liên quan đến nhà hàng.
+    - `FoodController` xử lý các yêu cầu liên quan đến món ăn.
+    - `RestaurantController` xử lý các yêu cầu liên quan đến nhà hàng.
 
 
 2. **Sử dụng các thực thể (Entities) để ánh xạ cơ sở dữ liệu**:
